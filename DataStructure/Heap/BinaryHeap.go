@@ -34,33 +34,40 @@ func (a *BinaryHeap) min() int {
 	return a.heap[0]
 }
 
-func (a *BinaryHeap) insert(x int) {
+func (a *BinaryHeap) insert(x int) { // O(log n)
 	a.heap = append(a.heap, x)
 	a.n++
 	a.siftUp(len(a.heap) - 1)
 }
 
-func (a *BinaryHeap) removeMin() {
-	n := len(a.heap) - 1
+func (a *BinaryHeap) removeMin() int { // O(log n)
 	a.n--
-	a.heap[0], a.heap[n] = a.heap[n], a.heap[0]
-	a.heap = a.heap[0:n]
+	result := a.min()
+	a.heap[0], a.heap[a.n] = a.heap[a.n], a.heap[0]
+	a.heap = a.heap[0:a.n]
 	a.siftDown(0)
+	return result
+
 }
 
-func main() {
-	arr := BinaryHeap{
+func HeapSort(a []int) { // + O(n) - memory
+	bh := BinaryHeap{
 		make([]int, 0),
 		0,
 	}
-	arr.insert(5)
-	arr.insert(3434)
-	arr.insert(43234)
-	arr.insert(90)
-	arr.insert(71)
-	arr.insert(874)
-	arr.insert(1)
-	fmt.Println(arr)
-	arr.removeMin()
-	fmt.Println(arr)
+	for i := 0; i < len(a); i++ {
+		bh.insert(a[i])
+	}
+	for i := 0; i < len(a); i++ {
+		a[i] = bh.removeMin()
+	}
+
+}
+
+func main() {
+
+	sliceX := []int{5, 3, 54353, 234, 54235432, 32452345, 324532, 435236242634523}
+	HeapSort(sliceX)
+	fmt.Println(sliceX)
+
 }
