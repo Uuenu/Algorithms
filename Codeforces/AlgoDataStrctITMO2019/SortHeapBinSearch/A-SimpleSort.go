@@ -1,6 +1,86 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+type BinaryHeap struct {
+	heap []int
+	n    int // heap size
+}
+
+func readInt(in *bufio.Reader) int {
+	nStr, _ := in.ReadString('\n')
+	nStr = strings.ReplaceAll(nStr, "\r", "")
+	nStr = strings.ReplaceAll(nStr, "\n", "")
+	n, _ := strconv.Atoi(nStr)
+	return n
+}
+
+func readLineNumbs(in *bufio.Reader) []string {
+	line, _ := in.ReadString('\n')
+	line = strings.ReplaceAll(line, "\r", "")
+	line = strings.ReplaceAll(line, "\n", "")
+	numbs := strings.Split(line, " ")
+	return numbs
+}
+
+func readArrInt(in *bufio.Reader) []int {
+	numbs := readLineNumbs(in)
+	arr := make([]int, len(numbs))
+	for i, n := range numbs {
+		val, _ := strconv.Atoi(n)
+		arr[i] = val
+	}
+	return arr
+}
+
+func (a *BinaryHeap) siftUp(i int) {
+	for i > 0 && a.heap[i] <= a.heap[(i-1)/2] {
+		a.heap[i], a.heap[(i-1)/2] = a.heap[(i-1)/2], a.heap[i]
+		i = (i - 1) / 2
+	}
+}
+
+func (a *BinaryHeap) siftDown(i int) {
+	for 2*i+1 < a.n {
+		j := 2*i + 1
+		if 2*i+2 < a.n && a.heap[2*i+2] < a.heap[j] {
+			a.heap[i], a.heap[2*i+2] = a.heap[2*i+2], a.heap[i]
+			i = 2*i + 2
+		}
+		if a.heap[i] < a.heap[j] {
+			break
+		} else {
+			a.heap[i], a.heap[j] = a.heap[j], a.heap[i]
+			i = j
+		}
+	}
+}
+
+func (a *BinaryHeap) min() int {
+	return a.heap[0]
+}
+
+func (a *BinaryHeap) insert(x int) { // O(log n)
+	a.heap = append(a.heap, x)
+	a.n++
+	a.siftUp(len(a.heap) - 1)
+}
+
+func (a *BinaryHeap) removeMin() int { // O(log n)
+	a.n--
+	result := a.min()
+	a.heap[0], a.heap[a.n] = a.heap[a.n], a.heap[0]
+	a.heap = a.heap[0:a.n]
+	a.siftDown(0)
+	return result
+
+}
 
 func merge(a []int, left, mid, right int) {
 	it1, it2 := 0, 0
@@ -44,13 +124,10 @@ func mergeSortRecrusive(a []int, left, right int) {
 
 func main() {
 
-	var n int
-	fmt.Scanf("%d \n", &n)
-	arr := make([]int, n)
-	for i := 0; i < n; i++ {
-		fmt.Scanf("%d ", &arr[i])
-	}
-	mergeSortRecrusive(arr, 0, n)
+	in := bufio.NewReader(os.Stdin)
+	n := readInt(in)
+	arr := readArrInt(in)
+	mergeSortRecrusive(arr, 0, len(arr))
 	for i := 0; i < n; i++ {
 		fmt.Printf("%d ", arr[i])
 	}

@@ -50,11 +50,12 @@ func (a *BinaryHeap) removeMin() int { // O(log n)
 
 }
 
-func HeapSort(a []int) { // + O(n) - memory
+func HeapSort(a []int) { //  O(nlog n) + O(n) - memory
 	bh := BinaryHeap{
 		make([]int, 0),
 		0,
 	}
+	//bh.heap = a
 	for i := 0; i < len(a); i++ {
 		bh.insert(a[i])
 	}
