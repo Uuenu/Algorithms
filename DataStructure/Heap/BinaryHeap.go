@@ -41,9 +41,9 @@ func (a *BinaryHeap) insert(x int) { // O(log n)
 }
 
 func (a *BinaryHeap) removeMin() int { // O(log n)
-	a.n--
 	result := a.min()
-	a.heap[0], a.heap[a.n] = a.heap[a.n], a.heap[0]
+	a.heap[0], a.heap[a.n] = a.heap[a.n], a.heap[0] // ???
+	a.n--
 	a.heap = a.heap[0:a.n]
 	a.siftDown(0)
 	return result
