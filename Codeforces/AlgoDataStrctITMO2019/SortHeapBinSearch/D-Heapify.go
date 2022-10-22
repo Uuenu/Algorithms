@@ -40,7 +40,7 @@ func readArrInt(in *bufio.Reader) []int {
 }
 
 func (b *BinaryHeap) siftUp(i int) {
-	for i > 0 && b.heap[i] >= b.heap[(i-1)/2] {
+	for i > 0 && b.heap[i] > b.heap[(i-1)/2] {
 		b.heap[i], b.heap[(i-1)/2] = b.heap[(i-1)/2], b.heap[i]
 		i = (i - 1) / 2
 	}
@@ -49,7 +49,7 @@ func (b *BinaryHeap) siftUp(i int) {
 func (b *BinaryHeap) siftDown(i int) {
 	for 2*i+1 < b.n {
 		j := 2*i + 1
-		if 2*i+2 < b.n && b.heap[2*i+2] >= b.heap[j] {
+		if 2*i+2 < b.n && b.heap[2*i+2] > b.heap[j] {
 			b.heap[i], b.heap[2*i+2] = b.heap[2*i+2], b.heap[i]
 			i = 2*i + 2
 		}
@@ -94,9 +94,8 @@ func main() {
 			//fmt.Println("Heap ", heap.heap)
 
 		} else {
-			if heap.n != 0 {
+			if len(heap.heap) > 0 {
 				res = append(res, heap.extract())
-
 			}
 			//fmt.Println("Heap ", heap.heap)
 		}
