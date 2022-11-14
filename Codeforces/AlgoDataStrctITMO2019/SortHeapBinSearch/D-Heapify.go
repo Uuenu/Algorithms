@@ -91,13 +91,10 @@ func main() {
 		arr := readArrInt(in)
 		if arr[0] == 0 {
 			heap.insert(arr[1])
-			//fmt.Println("Heap ", heap.heap)
-
 		} else {
 			if len(heap.heap) > 0 {
 				res = append(res, heap.extract())
 			}
-			//fmt.Println("Heap ", heap.heap)
 		}
 	}
 	for _, v := range res {
