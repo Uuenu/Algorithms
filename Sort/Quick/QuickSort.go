@@ -32,7 +32,7 @@ func partition(a []int, l, r int) int {
 
 func main() {
 
-	arax := []int{4, 234, 90, 2341, 23434, 66, 91, 0, 10000000}
+	arax := []int{4, 234, 90, 2341, 90, 23434, 66, 91, 0, 10000000}
 	fmt.Println(len(arax))
 	quicksort(arax, 0, len(arax)-1)
 	fmt.Println(arax)
